@@ -1,4 +1,5 @@
 ﻿using CustomerOrderViewer.Models;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,43 +20,14 @@ namespace CustomerOrderViewer.Repository
         
         public IList<CustomerOrderDetailModel> GetList() 
         { 
-            List<CustomerOrderDetailModel> customerOrderDetailModels = new List<CustomerOrderDetailModel>();
+            List<CustomerOrderDetailModel> list = new List<CustomerOrderDetailModel>();
+            var sql = "CustomerOrderDetail_GetList";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
-
-                using (SqlCommand command = new SqlCommand("SELECT " +
-                    "CustomerOrderId," +
-                    "CustomerId," +
-                    "ItemId," +
-                    "FirstName," +
-                    "LastName," +
-                    "[Description]," +
-                    "Price " +
-                    "FROM CustomerOrderDetail", connection)) 
-                { 
-                    using (SqlDataReader reader = command.ExecuteReader()) 
-                    { 
-                        while (reader.Read()) 
-                        {
-                            CustomerOrderDetailModel customerOrderDetailModel = new CustomerOrderDetailModel()
-                            {
-                                CustomerOrderId = Convert.ToInt32(reader["CustomerOrderId"]),
-                                CustomerId = Convert.ToInt32(reader["CustomerId"]),
-                                ItemId = Convert.ToInt32(reader["ItemId"]),
-                                FirstName = reader["FirstName"].ToString(),
-                                LastName = reader["LastName"].ToString(),
-                                Description = reader["Description"].ToString(),
-                                Price = Convert.ToDecimal(reader["Price"])
-                            };
-
-                            customerOrderDetailModels.Add(customerOrderDetailModel);
-                        }
-                    }
-                }
+                list = connection.Query<CustomerOrderDetailModel>(sql).ToList();
             }
-            return customerOrderDetailModels;
+            return list;
         }
 
     }
