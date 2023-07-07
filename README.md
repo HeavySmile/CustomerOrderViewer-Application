@@ -1,6 +1,6 @@
 # CustomerOrderViewer App
 ## Summary
-Console application is able to view customer order details, customer and item data.
+Application is able to view customer order details, customer and item data.
 ## Functionality
 - View customer, items, customer order data
 - Create and update customer orders
