@@ -53,7 +53,7 @@ namespace CustomerOrderViewer.Repository
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Execute(sql, new { @CustomerOrderId = upsertTable.AsTableValuedParameter("CustomerOrderType"), @UserId = uid }, commandType: CommandType.StoredProcedure);
+                connection.Execute(sql, new { @CustomerOrderType = upsertTable.AsTableValuedParameter("CustomerOrderType"), @UserId = uid }, commandType: CommandType.StoredProcedure);
             }
         }
     }
